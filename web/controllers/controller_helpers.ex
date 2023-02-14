@@ -215,7 +215,7 @@ defmodule Coherence.ControllerHelpers do
   """
   def track_login(conn, _, false), do: conn
   def track_login(conn, user, true) do
-    ip = conn.peer |> elem(0) |> inspect
+    ip = Plug.Conn.get_peer_data(conn) |> Map.get(:address) |> inspect()
     now = Ecto.DateTime.utc
     {last_at, last_ip} = cond do
       is_nil(user.last_sign_in_at) and is_nil(user.current_sign_in_at) ->
