@@ -70,7 +70,8 @@ defmodule Coherence.Authentication.IpAddress do
   end
 
   def call(conn, opts) do
-    ip = conn.peer |> elem(0)
+    ip = conn |> Plug.Conn.get_peer_data() |> Map.get(:address)
+
     conn
     |> verify_ip(ip, opts)
     |> fetch_user_data(opts)
